@@ -11,7 +11,7 @@ docker run --rm \
     /bin/bash -c "cmake ../firmware -GNinja && ninja"
 
 mkdir -p output
-cp build/main/pi2c.uf2 output/pi2c.uf2
+cp build/main/pico_start.uf2 output/pico_start.uf2
 
 cd build
 sed -i "s#/workspace#$(pwd)#g" compile_commands.json
