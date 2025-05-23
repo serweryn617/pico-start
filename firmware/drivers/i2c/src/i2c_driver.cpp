@@ -11,29 +11,21 @@ i2c_driver::i2c_driver(uint8_t i2c_inst, uint8_t sda_pin, uint8_t scl_pin, uint8
 {
 }
 
-void i2c_driver::init()
+uint32_t i2c_driver::init()
 {
-    i2c_init(i2c_inst_, speed_);
     gpio_set_function(sda_pin_, GPIO_FUNC_I2C);
     gpio_set_function(scl_pin_, GPIO_FUNC_I2C);
     gpio_pull_up(sda_pin_);
     gpio_pull_up(scl_pin_);
+    return i2c_init(i2c_inst_, speed_);
 }
 
-int i2c_driver::read_data(uint8_t *buffer, uint32_t length, uint32_t timeout_us)
+uint32_t i2c_driver::read_reg(uint32_t address)
 {
-    if (timeout_us) {
-        return i2c_read_timeout_us(i2c_inst_, address_, buffer, length, false, timeout_us);
-    }
-    return i2c_read_blocking(i2c_inst_, address_, buffer, length, false);
-}
-
-int i2c_driver::write_data(const uint8_t *buffer, uint32_t length, uint32_t timeout_us)
-{
-    if (timeout_us) {
-        return i2c_write_timeout_us(i2c_inst_, address_, buffer, length, false, timeout_us);
-    }
-    return i2c_write_blocking(i2c_inst_, address_, buffer, length, false);
+    uint32_t value = 0;
+    i2c_write_blocking(i2c_inst_, address_, reinterpret_cast<uint8_t*>(&address), 4, true);
+    i2c_read_blocking(i2c_inst_, address_, reinterpret_cast<uint8_t*>(&value), 4, false);
+    return value;
 }
 
 }  // namespace drivers::i2c

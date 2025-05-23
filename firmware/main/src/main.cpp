@@ -1,25 +1,14 @@
-// #include "defs/defs.hpp"
-// #include "i2c/i2c_driver.h"
-
-
-// using namespace drivers::i2c;
-
-// int main()
-// {
-//     // TinyUSB t_usb(global_tinyusb_callback);
-//     i2c_driver main_i2c(defs::i2c::inst, defs::i2c::sda_pin, defs::i2c::scl_pin, defs::i2c::slave_address, defs::i2c_baudrate);
-
-// }
-
-
-
-#include <stdio.h>
 #include "pico/stdlib.h"
+#include "tusb.h"
 
 int main() {
-    stdio_init_all();
+    tusb_rhport_init_t dev_init = {
+        .role = TUSB_ROLE_DEVICE,
+        .speed = TUSB_SPEED_AUTO
+    };
+    tusb_init(BOARD_TUD_RHPORT, &dev_init);
+
     while (true) {
-        printf("Hello, world!\n");
-        sleep_ms(1000);
+        tud_task();
     }
 }
