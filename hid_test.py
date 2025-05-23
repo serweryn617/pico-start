@@ -7,10 +7,11 @@ USB_VID = (0xcafe, 0x239a, 0x2e8a, 0x303a)
 
 print("VID list: " + ", ".join('%02x' % v for v in USB_VID))
 
-for vid in  USB_VID:
-    for dict in hid.enumerate(vid):
-        print(dict)
-        dev = hid.Device(dict['vendor_id'], dict['product_id'])
+for vid in USB_VID:
+    print(hex(vid))
+    for d in hid.enumerate(vid):
+        print(d)
+        dev = hid.Device(d['vendor_id'], d['product_id'])
         if dev:
             while True:
                 # Get input from console and encode to UTF8 for array of chars.

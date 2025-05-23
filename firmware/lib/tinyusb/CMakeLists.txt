@@ -1,8 +1,6 @@
 add_library(tinyusb STATIC
-    src/tinyusb.cpp
     src/usb_descriptors.c
     src/tinyusb_cb.c
-    src/hid_keycodes.cpp
 )
 
 target_include_directories(tinyusb PUBLIC
