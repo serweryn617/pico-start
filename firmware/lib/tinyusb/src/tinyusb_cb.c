@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "pico/stdlib.h"
 #include "tusb.h"
 
 //--------------------------------------------------------------------+
@@ -44,10 +45,13 @@ uint16_t tud_hid_get_report_cb(uint8_t itf, uint8_t report_id, hid_report_type_t
   (void) itf;
   (void) report_id;
   (void) report_type;
-  (void) buffer;
-  (void) reqlen;
 
-  return 0;
+  gpio_put(2, true);
+  sleep_us(100);
+  gpio_put(2, false);
+
+  memset(buffer, 0xa5, reqlen);
+  return reqlen;
 }
 
 // Invoked when received SET_REPORT control request or
@@ -59,15 +63,7 @@ void tud_hid_set_report_cb(uint8_t itf, uint8_t report_id, hid_report_type_t rep
   (void) report_id;
   (void) report_type;
 
-  // echo back anything we received from host, converted to uppercase
-  uint8_t uppercase[64] = {};
-  uint8_t count = bufsize > 64 ? 64 : bufsize;
-  for (uint8_t i = 0; i < count; i++) {
-    uint8_t elem = buffer[i];
-    if (elem >= 97 && elem <= 122) {
-        elem -= 32;
-    }
-    uppercase[i] = elem;
-  }
-  tud_hid_report(0, uppercase, count);
+  gpio_put(3, true);
+  sleep_us(100);
+  gpio_put(3, false);
 }
