@@ -17,12 +17,12 @@ void ssd1306::init()
     write_command(0x40);  // Set Display Start Line
     write_command(0xA1);  // Set Segment Re-map
     write_command(0xA8);  // Set Multiplex Ratio
-    write_command(0x1F);  // 31 multiplex
+    write_command(0x3F);  // 31 multiplex
     write_command(0xC8);  // Set COM Output Scan Direction
     write_command(0xD3);  // Set Display Offset
     write_command(0x00);  // offset 0
     write_command(0xDA);  // Set COM Pins Hardware Configuration
-    write_command(0x02);  // default com pins
+    write_command(0x02 | 0x1 << 4 | 0x0 << 5);  // default com pins
     write_command(0xD5);  // Set Display Clock Divide Ratio/Oscillator Frequency
     write_command(0x80);  // default frreq
     write_command(0xD9);  // Set Pre-charge Period
@@ -68,7 +68,7 @@ void ssd1306::display()
     write_command(0x7F);
     write_command(0x22);
     write_command(0x00);
-    write_command(0x03);
+    write_command(0x07);
 
     constexpr uint32_t data_len = oledWidth * oledPages;
     uint8_t data_bytes[data_len + 1];

@@ -11,7 +11,7 @@ constexpr uint8_t inst = 0;
 constexpr uint8_t scl = 13;
 constexpr uint8_t sda = 12;
 constexpr uint32_t baudrate = 400'000;
-constexpr uint8_t slave_address = 0x55;
+constexpr uint8_t slave_address = 0x3c;
 
 }  // namespace i2c
 
