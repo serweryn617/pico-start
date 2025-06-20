@@ -7,6 +7,7 @@ target_link_libraries(${PROJECT_NAME}
     defs
     i2c_driver
     uart_driver
+    ssd1306
 )
 
 pico_add_extra_outputs(${PROJECT_NAME})
