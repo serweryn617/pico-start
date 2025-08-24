@@ -18,7 +18,6 @@ set(CMAKE_CXX_STANDARD 20)
 pico_sdk_init()
 
 add_subdirectory(main)
-add_subdirectory(drivers)
 add_subdirectory(lib)
 
 # pico_enable_stdio_usb(${PROJECT_NAME} 0)

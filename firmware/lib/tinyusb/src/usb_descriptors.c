@@ -91,13 +91,16 @@ uint8_t const * tud_hid_descriptor_report_cb(uint8_t itf)
 
 enum
 {
-  ITF_NUM_HID,
+  ITF_NUM_HID = 0,
+  ITF_NUM_VENDOR,
   ITF_NUM_TOTAL
 };
 
-#define  CONFIG_TOTAL_LEN  (TUD_CONFIG_DESC_LEN + TUD_HID_INOUT_DESC_LEN)
+#define  CONFIG_TOTAL_LEN  (TUD_CONFIG_DESC_LEN + TUD_HID_INOUT_DESC_LEN + TUD_VENDOR_DESC_LEN)
 
 #define EPNUM_HID   0x01
+#define EPNUM_VENDOR_OUT 0x02
+#define EPNUM_VENDOR_IN  0x82
 
 uint8_t const desc_configuration[] =
 {
@@ -105,7 +108,9 @@ uint8_t const desc_configuration[] =
   TUD_CONFIG_DESCRIPTOR(1, ITF_NUM_TOTAL, 0, CONFIG_TOTAL_LEN, 0x00, 100),
 
   // Interface number, string index, protocol, report descriptor len, EP Out & In address, size & polling interval
-  TUD_HID_INOUT_DESCRIPTOR(ITF_NUM_HID, 0, HID_ITF_PROTOCOL_NONE, sizeof(desc_hid_report), EPNUM_HID, 0x80 | EPNUM_HID, CFG_TUD_HID_EP_BUFSIZE, 10)
+  TUD_HID_INOUT_DESCRIPTOR(ITF_NUM_HID, 0, HID_ITF_PROTOCOL_NONE, sizeof(desc_hid_report), EPNUM_HID, 0x80 | EPNUM_HID, CFG_TUD_HID_EP_BUFSIZE, 1),
+
+  TUD_VENDOR_DESCRIPTOR(ITF_NUM_VENDOR, 0, EPNUM_VENDOR_OUT, EPNUM_VENDOR_IN, 64)
 };
 
 // Invoked when received GET CONFIGURATION DESCRIPTOR
