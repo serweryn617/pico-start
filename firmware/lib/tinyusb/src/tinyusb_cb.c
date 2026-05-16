@@ -47,7 +47,7 @@ uint16_t tud_hid_get_report_cb(uint8_t itf, uint8_t report_id, hid_report_type_t
   (void) report_type;
 
   gpio_put(2, true);
-  sleep_us(100);
+  sleep_us(500);
   gpio_put(2, false);
 
   memset(buffer, 0xa5, reqlen);
@@ -64,6 +64,6 @@ void tud_hid_set_report_cb(uint8_t itf, uint8_t report_id, hid_report_type_t rep
   (void) report_type;
 
   gpio_put(3, true);
-  sleep_us(100);
+  sleep_us(500);
   gpio_put(3, false);
 }
